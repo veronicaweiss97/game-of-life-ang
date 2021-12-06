@@ -1,4 +1,6 @@
 .menu {
+  position: fixed;
+  bottom: 0;
   min-height: 10vh;
   background-color: rgb(56, 56, 56);
   color: rgb(158, 158, 158);

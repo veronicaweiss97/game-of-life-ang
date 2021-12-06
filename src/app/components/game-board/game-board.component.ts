@@ -1,3 +1,4 @@
+import { FormDataService } from './../../services/form-data.service';
 import { FunctionService } from './services/function.service';
 import { DataFlowService } from '../../services/data-flow.service';
 import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
@@ -9,39 +10,143 @@ import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 })
 export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
 
-  cells: string[] = [];
-  cellSize: number = 10;
+  public cells: string[] = [];
+  public cellSize: number = 10;
 
-  cellAmount: number = 1253;
-  canvas: any;
-  width!: number;
-  height!: number;
-  ctx!: any;
+  public cellAmount: number = 1253;
+  public canvas: any;
+  public width!: number;
+  public height!: number;
+  public ctx!: any;
 
-  CELL_X!: number;
-  CELL_Y!: number;
+  public CELL_X!: number;
+  public CELL_Y!: number;
 
-  BOARD: any;
-  isPlayed: boolean = false;
-  interval: any;
-  cleared: boolean = false;
+  public BOARD: any;
+  public isPlayed: boolean = false;
+  public interval: any;
+  public cleared: boolean = false;
   //speed states
-  speed: number = 10;
-  controllChange: boolean = false;
+  public speed: number = 10;
+  public controllChange: boolean = false;
   //counter for generations
-  iterationCounter: number = 0;
+  public iterationCounter: number = 0;
 
   //for cell color change
-  colors: string[] = ['rgb(116,187,253)', 'rgb(243,187,253)', 'rgb(24,97,253)', 'rgb(113,97,253)', 'rgb(202,197,252)', 'rgb(36,27,125)', 'rgb(252,27,125)', 'rgb(252,231,125'];
-  //for canvas Responsiveness
-  pangeWidth: number = document.documentElement.scrollWidth;
+  public colors: string[] = ['rgb(116,187,253)', 'rgb(243,187,253)', 'rgb(24,97,253)', 'rgb(113,97,253)', 'rgb(202,197,252)', 'rgb(36,27,125)', 'rgb(252,27,125)', 'rgb(252,231,125'];
+  //for canvas responsiveness
+  public pangeWidth: number = document.documentElement.scrollWidth;
 
-  constructor(private dataFlowService: DataFlowService, private functionsService: FunctionService) { }
+  //instances for the initial cells coordinates
+  public firstFigure: {x: number, y: number}[] = [
+    {x: 8, y: 4},
+    {x: 8, y: 10},
+    {x: 9, y: 4},
+    {x: 9, y: 10},
+    {x: 10, y: 4},
+    {x: 10, y: 5},
+    {x: 10, y: 9},
+    {x: 10, y: 10},
+    {x: 12, y: 0},
+    {x: 12, y: 1},
+    {x: 12, y: 2},
+    {x: 12, y: 5},
+    {x: 12, y: 6},
+    {x: 12, y: 8},
+    {x: 12, y: 9},
+    {x: 12, y: 12},
+    {x: 12, y: 13},
+    {x: 12, y: 14},
+    {x: 13, y: 2},
+    {x: 13, y: 4},
+    {x: 13, y: 6},
+    {x: 13, y: 8},
+    {x: 13, y: 10},
+    {x: 13, y: 12},
+    {x: 14, y: 4},
+    {x: 14, y: 5},
+    {x: 14, y: 9},
+    {x: 14, y: 10},
+    {x: 16, y: 4},
+    {x: 16, y: 5},
+    {x: 16, y: 9},
+    {x: 16, y: 10},
+    {x: 17, y: 2},
+    {x: 17, y: 4},
+    {x: 17, y: 6},
+    {x: 17, y: 8},
+    {x: 17, y: 10},
+    {x: 17, y: 12},
+    {x: 18, y: 0},
+    {x: 18, y: 1},
+    {x: 18, y: 2},
+    {x: 18, y: 5},
+    {x: 18, y: 6},
+    {x: 18, y: 8},
+    {x: 18, y: 9},
+    {x: 18, y: 12},
+    {x: 18, y: 13},
+    {x: 18, y: 14},
+    {x: 20, y: 4},
+    {x: 20, y: 5},
+    {x: 20, y: 9},
+    {x: 20, y: 10},
+    {x: 21, y: 4},
+    {x: 21, y: 10},
+    {x: 22, y: 4},
+    {x: 22, y: 10}
+  ];
+  public secondFigure: {x: number, y: number}[] = [
+    {x: 12, y: 5},
+    {x: 12, y: 7},
+    {x: 13, y: 4},
+    {x: 14, y: 4},
+    {x: 14, y: 8},
+    {x: 15, y: 4},
+    {x: 15, y: 8},
+    {x: 16, y: 4},
+    {x: 17, y: 4},
+    {x: 17, y: 7},
+    {x: 18, y: 4},
+    {x: 18, y: 5},
+    {x: 18, y: 6}
+  ];
+  public thirdFigure: {x: number, y: number}[] = [
+    {x: 5, y: 6},
+    {x: 6, y: 4},
+    {x: 6, y: 6},
+    {x: 7, y: 5},
+    {x: 7, y: 6}
+  ];
+  public defaultFigure: {x: number, y: number}[] = [
+    {x: 0, y: 1},
+    {x: 1, y: 1},
+    {x: 2, y: 1},
+  ]
+  //for custom width and height
+  public userWidth: number = 600
+  public userHeight: number = 400
+
+
+  constructor(private dataFlowService: DataFlowService, private functionsService: FunctionService, private formDataService: FormDataService) { }
 
   ngOnInit(): void {
+    //for local storage
+    const dataFromForm = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('formData'))));
+    console.log(dataFromForm);
+    this.userWidth = dataFromForm.width;
+    this.userHeight = dataFromForm.height;
+
+    //data from the welcome view
+    this.formDataService.formData$.subscribe((formData) => console.log(formData));
+
     //canvas
+
     //finding the canvas HTML elem in order to cooperate with it in future functions
     this.canvas = document.querySelector<HTMLCanvasElement>('#game');
+    //custom width and height
+    this.canvas.width = this.userWidth;
+    this.canvas.height = this.userHeight;
     //creating the context for the 2 dimentional area
     this.ctx = this.canvas?.getContext('2d');
     //the future width and height of the future board
@@ -56,6 +161,7 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
 
     this.functionsService._drawBorders(this.ctx, this.CELL_X, this.CELL_Y, this.cellSize, this.width, this.height); //drawing the canvas lines
     this._cellsInit(); //creating default alive cells
+    this._figureInit(dataFromForm.figure)
     this.functionsService._drawBoard(this.ctx, this.colors, this.CELL_X, this.CELL_Y, this.cellSize, this.BOARD); //drawing the initial board with initial cells
 
     //using service to transfer the functions to the component of Board-Menu
@@ -75,8 +181,6 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck(): void {
-    //canvas size
-
     //calling the function to set the generation counter
     this.dataFlowService._provideIterationCounter(this.iterationCounter);
 
@@ -87,6 +191,7 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
     if(this.cleared) {
       this.functionsService._reset(this.ctx, this.width, this.height);
       this._cellsInit();
+
       this._nextGeneration(true, true);
       this.cleared = false;
     }
@@ -110,23 +215,48 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
     this.dataFlowService.isStarted$.unsubscribe();
     this.dataFlowService.cleared$.unsubscribe();
     this.dataFlowService.speed$.unsubscribe();
+    this.dataFlowService.cellSize$.unsubscribe();
+    this.dataFlowService.isChangedSpeed$.unsubscribe();
+
   }
 
-  //for canvas Responsiveness
+  //initial cells coordinates
+  private _figureInit(figure: string): void {
+    if(figure === 'firstFigure') {
+      for (let i = 0; i < this.firstFigure.length; i++) {
+        this.BOARD[this.firstFigure[i].x][this.firstFigure[i].y] = true;
+      }
+    } else if (figure === 'secondFigure') {
+      for (let i = 0; i < this.secondFigure.length; i++) {
+        this.BOARD[this.secondFigure[i].x][this.secondFigure[i].y] = true;
+      }
+    } else if (figure === 'thirdFigure') {
+      for (let i = 0; i < this.thirdFigure.length; i++) {
+        this.BOARD[this.thirdFigure[i].x][this.thirdFigure[i].y] = true;
+      }
+    } else if (figure === 'default') {
+      for (let i = 0; i < this.defaultFigure.length; i++) {
+       return
+      }
+    }
+
+  }
+
+  //for canvas responsiveness
   public _onResize(e: any): void {
     this.pangeWidth = document.documentElement.scrollWidth;
   }
 
-  public _cellsInit(): void{
+  public _cellsInit(): void {
     //setting some of the cells to true meaning that they are alive and will be filled with color from the beggining of the game
     this.BOARD = this.functionsService._prepareBoard(this.CELL_X, this.CELL_Y);
-    this.BOARD[0][1] = true;
-    this.BOARD[1][1] = true;
-    this.BOARD[2][1] = true;
+
   }
 
   //calling all the Necessary fucntion to show the current generation and to calculate the next one according to the rules and updating the state of the cells each second with the SetInterval
   public _nextGeneration(isCleared?: boolean, isStopped?: boolean): void {
+
+
     if(isStopped) {
       this.BOARD = this.functionsService._setNewGeneration(this.CELL_X, this.CELL_Y, this.BOARD);
       this.functionsService._drawAll(this.ctx, this.CELL_X, this.CELL_Y, this.cellSize, this.width, this.height, this.colors, this.BOARD);
@@ -148,6 +278,7 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
 
     //toggling the click( when alive, turns dead and viceversa)
     this.BOARD[x][y] = !this.BOARD[x][y];
+
     //drawing the cell again according to the new clicked cells and thir coordinates
     this.functionsService._drawAll(this.ctx, this.CELL_X, this.CELL_Y, this.cellSize, this.width, this.height, this.colors, this.BOARD);
   }

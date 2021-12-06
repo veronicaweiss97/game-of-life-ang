@@ -47,7 +47,6 @@ export class FunctionService {
   public _drawBoard(ctx: any, colors: string[], size: number , cellX: number, cellY: number, board: []): void {
     ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)]
 
-
     for( let i = 0; i < cellX!; i++ ) {
       for( let j = 0; j < cellY!; j++ ) {
         if(!this._isAlive(i, j, cellX!, cellY!, board)) {
@@ -84,6 +83,7 @@ export class FunctionService {
   //looping through the coordinates and checkig for the next generation
   //creating the new empty board( which will be the next board with new data)
   public _setNewGeneration(cellX: number, cellY: number, board: []): boolean[][] {
+
     const cBoard = this._prepareBoard(cellX, cellY)
 
     for( let i = 0; i < cellX; i++ ) {
