@@ -1,15 +1,5 @@
-header {
-  width: 100%;
+.header {
   height: 10vh;
   background-color: rgb(56, 56, 56);
   color: rgb(158, 158, 158);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-header h1 {
-  font-size: 2rem;
-}
-header h2 {
-  font-size: 1.25rem;
 }

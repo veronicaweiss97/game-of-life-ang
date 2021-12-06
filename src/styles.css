@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Bitter:wght@100;700&family=Quicksand:wght@300&display=swap");
 @import "animate.css";
+@import url("https://fonts.googleapis.com/css2?family=Bitter:wght@100;700&family=Great+Vibes&display=swap");
+
+app-root {
+  display: block;
+}
 * {
   padding: 0;
   margin: 0;
@@ -79,4 +84,10 @@ h5,
 h6 {
   font-size: inherit;
   font-weight: 400;
+}
+h1 {
+  font-size: 2rem;
+}
+h2 {
+  font-size: 1.25rem;
 }

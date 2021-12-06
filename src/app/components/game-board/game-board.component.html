@@ -1,9 +1,9 @@
-<div class="board">
+<div class="board container-fluid d-flex align-content-center justify-content-center flex-wrap w-100" (window:resize)='_onResize($event)'>
   <canvas
     class='animate__animated animate__fadeInLeftBig'
-    (click)='canvasClick($event)'
+    (click)='_canvasClick($event)'
     id="game"
-    width="500"
+    width="600"
     height="400"
     >
 </canvas>

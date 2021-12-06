@@ -8,19 +8,19 @@ import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, DoCheck , OnDestroy{
-  iterationCounter: number = 0
+  public iterationCounter: number = 0;
 
   constructor(private dataFlowService: DataFlowService) { }
 
   ngOnInit(): void {
   }
 
-  ngDoCheck() {
-    this.dataFlowService.iterationCounter$.subscribe((count) => this.iterationCounter = count)
+  ngDoCheck(): void {
+    this.dataFlowService.iterationCounter$.subscribe((count) => this.iterationCounter = count);
   }
 
-  ngOnDestroy() {
-    this.dataFlowService.iterationCounter$.unsubscribe()
+  ngOnDestroy(): void {
+    this.dataFlowService.iterationCounter$.unsubscribe();
   }
 
 }
