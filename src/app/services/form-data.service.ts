@@ -9,7 +9,7 @@ export class FormDataService {
 
   constructor() { }
 
-  public _provideFormData(data: any): void {
+  public provideFormData(data: any): void {
     this.formData$.next(data)
   }
 }

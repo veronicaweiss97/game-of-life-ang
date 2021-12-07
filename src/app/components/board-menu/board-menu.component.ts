@@ -24,28 +24,28 @@ export class BoardMenuComponent implements OnInit, DoCheck {
   public _start(): void {
     this.isPlayed = true;
     this.isPaused = false;
-    this.dataFlowService._toggleStart(true);
+    this.dataFlowService.toggleStart(true);
   }
   //pause the game
   public _pause(): void {
     this.isPlayed = false;
     this.isPaused = true;
-    this.dataFlowService._toggleStart(false);
+    this.dataFlowService.toggleStart(false);
   }
   //changing speed between generation update
   public _changeSpeed(e: any): void {
     this.speed = 11 - +e.target.value;
-    this.dataFlowService._provideChangedSpeed(true);
-    this.dataFlowService._provideSpeed(this.speed);
+    this.dataFlowService.provideChangedSpeed(true);
+    this.dataFlowService.provideSpeed(this.speed);
   }
   //changing cell cize
   public _changeGrid(e: any): void {
-    this.dataFlowService._provideCellSize(+e.target.value);
+    this.dataFlowService.provideCellSize(+e.target.value);
   }
 
   //reset grid to the initial state
   public _reset(): void {
-    this.dataFlowService._reset(true);
+    this.dataFlowService.reset(true);
   }
 
 }

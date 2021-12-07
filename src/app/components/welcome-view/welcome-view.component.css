@@ -3,7 +3,14 @@
   font-family: "Great Vibes", cursive;
   font-size: 6rem;
   color: rgb(56, 56, 56);
+  text-align: center;
 }
 .welcome-text {
   font-size: 2rem;
+  text-align: center;
+}
+@media (max-width: 622px) {
+  .welcome h2 {
+    font-size: 3rem;
+  }
 }

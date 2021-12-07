@@ -16,27 +16,27 @@ export class DataFlowService {
 
 
   //flow for start function (from board to board menu)
-  public _toggleStart(start: boolean): void {
+  public toggleStart(start: boolean): void {
     this.isStarted$.next(start);
   }
 
-  public _reset(reset: boolean): void {
+  public reset(reset: boolean): void {
     this.cleared$.next(reset);
   }
 
-  public _provideSpeed(speed: number): void {
+  public provideSpeed(speed: number): void {
     this.speed$.next(speed);
   }
 
-  public _provideChangedSpeed(isChanged: boolean): void {
+  public provideChangedSpeed(isChanged: boolean): void {
     this.isChangedSpeed$.next(isChanged);
   }
 
-  public _provideCellSize(size: number): void {
+  public provideCellSize(size: number): void {
     this.cellSize$.next(size);
   }
 
-  public _provideIterationCounter(count: number): void {
+  public provideIterationCounter(count: number): void {
     this.iterationCounter$.next(count);
   }
 }

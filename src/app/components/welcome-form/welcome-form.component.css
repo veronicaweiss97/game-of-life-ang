@@ -2,3 +2,12 @@
   max-width: 600px;
   margin: 0 auto;
 }
+@media (max-width: 622px) {
+  .form {
+    margin: 0 auto;
+  }
+  .formImg {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

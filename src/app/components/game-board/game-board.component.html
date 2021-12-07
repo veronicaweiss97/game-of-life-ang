@@ -1,7 +1,7 @@
-<div class="board container-fluid d-flex align-content-center justify-content-center flex-wrap w-100" (window:resize)='_onResize($event)'>
+<div class="board container-fluid d-flex align-content-center justify-content-center flex-wrap w-100" (window:resize)='onResize($event)'>
   <canvas
     class='animate__animated animate__fadeInLeftBig'
-    (click)='_canvasClick($event)'
+    (click)='canvasClick($event)'
     id="game"
     >
 </canvas>
