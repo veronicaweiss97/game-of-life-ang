@@ -13,7 +13,10 @@ export class DataFlowService {
   public cellSize$ = new Subject<number>();
   //flow for generation counter
   public iterationCounter$ = new Subject<number>();
-
+  //for radio inputs in form (inital view)
+  public formData$ = new Subject<{ width: number; height: number; figure: string;}>();
+  public radioImage$ = new Subject<string>()
+  public radioValue$ = new Subject<string>()
 
   //flow for start function (from board to board menu)
   public toggleStart(start: boolean): void {
@@ -35,8 +38,18 @@ export class DataFlowService {
   public provideCellSize(size: number): void {
     this.cellSize$.next(size);
   }
-
+  //flow for generation counter
   public provideIterationCounter(count: number): void {
     this.iterationCounter$.next(count);
   }
+   //for radio inputs in form (inital view)
+   public provideFormData(data: {width: number; height: number; figure: string;}): void {
+    this.formData$.next(data)
+   }
+   public provideRadioImage(image: string) {
+     this.radioImage$.next(image)
+   }
+   public provideRadioValue(value: string) {
+     this.radioValue$.next(value)
+   }
 }

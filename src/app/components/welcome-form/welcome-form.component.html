@@ -42,8 +42,9 @@
 
 
   <h3>Initial form of the cells:</h3>
-  <div class="form-group d-flex formImg">
-
+  <div class="form-group d-flex justify-content-between formImg">
+    <app-input-radio *ngFor='let input of radioInputs' [input]='input'></app-input-radio>
+<!--
     <label for="cellFirst">1.</label>
     <img src="../../../assets/img/firstFigure.png" alt="firstFigure" style='width: 120px; height: 100px'>
     <input type="radio" class="form-control" id="firstFigure" value='firstFigure' name='cell' [(ngModel)]='formData.figure'>
@@ -59,6 +60,7 @@
     <label for="cellThird">4.</label>
     <img src="../../../assets/img/4.png" alt="default" style='width: 120px; height: 100px'>
     <input type="radio" class="form-control" id="default" value='default' name='cell' [(ngModel)]='formData.figure'>
+     -->
   </div>
 
   <button

@@ -1,7 +1,7 @@
-import { FormDataService } from './../../services/form-data.service';
 import { FunctionService } from './services/function.service';
 import { DataFlowService } from '../../services/data-flow.service';
 import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 enum Figures {
   firstFigure,
@@ -136,10 +136,14 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
   public userWidth: number = 600
   public userHeight: number = 400
 
+  //subscriptions
+  private isStartedSubscription: Subscription = new Subscription()
+  private clearSubscription: Subscription = new Subscription()
+  private speedSubscription: Subscription = new Subscription()
+  private cellSizeSubscription: Subscription = new Subscription()
+  private isChangeSpeedSubscription: Subscription = new Subscription()
 
-
-
-  constructor(private dataFlowService: DataFlowService, private functionsService: FunctionService, private formDataService: FormDataService) { }
+  constructor(private dataFlowService: DataFlowService, private functionsService: FunctionService) { }
 
   ngOnInit(): void {
     //for local storage
@@ -147,11 +151,6 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
     console.log(dataFromForm);
     this.userWidth = dataFromForm.width;
     this.userHeight = dataFromForm.height;
-
-    //data from the welcome view
-    this.formDataService.formData$.subscribe((formData) => console.log(formData));
-
-    //canvas
 
     //finding the canvas HTML elem in order to cooperate with it in future functions
     this.canvas = document.querySelector<HTMLCanvasElement>('#game');
@@ -176,19 +175,19 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
     this.functionsService.drawBoard(this.ctx, this.colors, this.CELL_X, this.CELL_Y, this.cellSize, this.BOARD); //drawing the initial board with initial cells
 
     //using service to transfer the functions to the component of Board-Menu
-    this.dataFlowService.isStarted$.subscribe((start) => {
+    this.isStartedSubscription = this.dataFlowService.isStarted$.subscribe((start) => {
       if(start) {
         this.nextGeneration();
       }
       !start ? this.isPlayed = true : this.isPlayed = false;
     });
-    this.dataFlowService.cleared$.subscribe((reset) => {
+    this.clearSubscription = this.dataFlowService.cleared$.subscribe((reset) => {
       this.cleared = reset;
       //resetting the counter of the generations
       this.iterationCounter = 0;
     });
     //speed flows for speed change
-    this.dataFlowService.speed$.subscribe((speed) => this.speed = speed);
+    this.speedSubscription = this.dataFlowService.speed$.subscribe((speed) => this.speed = speed);
   }
 
   ngDoCheck(): void {
@@ -207,27 +206,33 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
       this.cleared = false;
     }
     //new speed is asignet to the new speed
-    this.dataFlowService.isChangedSpeed$.subscribe((isChanged) => this.controllChange = isChanged);
+    this.isChangeSpeedSubscription = this.dataFlowService.isChangedSpeed$.subscribe((isChanged) => this.controllChange = isChanged);
 
     if(this.controllChange) {
       clearInterval(this.interval);
-      this.dataFlowService.speed$.subscribe((speed) => this.speed = speed);
+      this.speedSubscription = this.dataFlowService.speed$.subscribe((speed) => this.speed = speed);
       this.controllChange = false;
       this.nextGeneration();
     }
     //flow to change the cell size using the controller
-      this.dataFlowService.cellSize$.subscribe((cell) => this.cellSize = cell);
+      this.cellSizeSubscription = this.dataFlowService.cellSize$.subscribe((cell) => this.cellSize = cell);
       this.functionsService._reset(this.ctx, this.width, this.height);
       this.functionsService.drawBorders(this.ctx, this.CELL_X, this.CELL_Y, this.cellSize,  this.width, this.height);
       this.functionsService.drawBoard(this.ctx, this.colors, this.cellSize, this.CELL_X, this.CELL_Y, this.BOARD);
   }
 
   ngOnDestroy(): void {
-    this.dataFlowService.isStarted$.unsubscribe();
+    this.isStartedSubscription.unsubscribe();
+    this.clearSubscription.unsubscribe();
+    this.speedSubscription.unsubscribe();
+    this.cellSizeSubscription.unsubscribe();
+    this.isChangeSpeedSubscription.unsubscribe();
+
+   /*  this.dataFlowService.isStarted$.unsubscribe();
     this.dataFlowService.cleared$.unsubscribe();
     this.dataFlowService.speed$.unsubscribe();
     this.dataFlowService.cellSize$.unsubscribe();
-    this.dataFlowService.isChangedSpeed$.unsubscribe();
+    this.dataFlowService.isChangedSpeed$.unsubscribe(); */
   }
 
   //initial cells coordinates
