@@ -1,6 +1,8 @@
 import { DataFlowService } from '../../services/data-flow.service';
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import radio from './data/radio-input-data.json';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcome-form',
@@ -9,50 +11,14 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class WelcomeFormComponent implements OnInit, DoCheck {
 
+
   public formData: {width: number, height: number, figure: string} = {
     width: 600,
     height: 400,
     figure: 'default'
   }
+  public radioInputs: any = JSON.parse(JSON.stringify(radio));
 
-  public radioInputs: {}[] = [
-    {
-      formData: {
-      width: 600,
-      height: 400,
-      figure: 'firstFigure'
-      },
-      image: '../../../assets/img/firstFigure.png',
-      value: 'firstFigure'
-    },
-    {
-      formData: {
-        width: 600,
-        height: 400,
-        figure: 'secondFigure'
-      },
-      image: '../../../assets/img/secondFigure.png',
-      value: 'secondFigure'
-    },
-    {
-      formData: {
-        width: 600,
-        height: 400,
-        figure: 'thirdFigure'
-      },
-      image: '../../../assets/img/thirdFigure.png',
-      value: 'thirdFigure'
-    },
-    {
-      formData: {
-        width: 600,
-        height: 400,
-        figure: 'default'
-      },
-      image: '../../../assets/img/4.png',
-      value: 'default'
-    },
-  ]
   //formControls
   public widthControl = new FormControl('', [Validators.required, Validators.min(400), Validators.max(900)]);
   public heightControl = new FormControl('', [Validators.required, Validators.min(200), Validators.max(500)]);
@@ -61,7 +27,7 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
   public windowWidth: number = document.documentElement.scrollWidth;
   public isMobile: boolean = false;
 
-  constructor(private dataFlowService: DataFlowService) { }
+  constructor(private dataFlowService: DataFlowService, private router: Router) { }
 
   ngOnInit(): void {
     this.windowWidth <= 550 ? (this.isMobile = true) : (this.isMobile = false);
@@ -76,7 +42,6 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
 
   public doMobile(): void {
     this.windowWidth = document.documentElement.clientWidth;
-
     if (this.windowWidth <= 550 && this.isMobile) {
       this.isMobile = false;
       this.formData.width = 300;
@@ -94,7 +59,6 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
         Validators.max(300)
       ]);
     }
-
     if (this.windowWidth >= 550 && !this.isMobile) {
       this.isMobile = true;
       this.formData.width = 600;
@@ -113,7 +77,9 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
       ]);
     }
   }
-  public onSubmit(): void {
-    localStorage.setItem('formData', JSON.stringify(this.formData));
-  }
+
+  //data pass with Router
+  public goToBoard(): void {
+    this.router.navigate(['/game-of-life'], {state: {data: this.formData}});
+}
 }

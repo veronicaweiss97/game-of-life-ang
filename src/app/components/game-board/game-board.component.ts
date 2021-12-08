@@ -2,6 +2,8 @@ import { FunctionService } from './services/function.service';
 import { DataFlowService } from '../../services/data-flow.service';
 import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import data from './data/figure-data.json'
+import { Router } from '@angular/router';
 
 enum Figures {
   FIRSTFIGURE,
@@ -46,95 +48,12 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
   //for canvas responsiveness
   public pageWidth: number = document.documentElement.scrollWidth;
 
-  //instances for the initial cells coordinates
-  public firstFigure: {x: number, y: number} [] = [
-    {x: 8, y: 4},
-    {x: 8, y: 10},
-    {x: 9, y: 4},
-    {x: 9, y: 10},
-    {x: 10, y: 4},
-    {x: 10, y: 5},
-    {x: 10, y: 9},
-    {x: 10, y: 10},
-    {x: 12, y: 0},
-    {x: 12, y: 1},
-    {x: 12, y: 2},
-    {x: 12, y: 5},
-    {x: 12, y: 6},
-    {x: 12, y: 8},
-    {x: 12, y: 9},
-    {x: 12, y: 12},
-    {x: 12, y: 13},
-    {x: 12, y: 14},
-    {x: 13, y: 2},
-    {x: 13, y: 4},
-    {x: 13, y: 6},
-    {x: 13, y: 8},
-    {x: 13, y: 10},
-    {x: 13, y: 12},
-    {x: 14, y: 4},
-    {x: 14, y: 5},
-    {x: 14, y: 9},
-    {x: 14, y: 10},
-    {x: 16, y: 4},
-    {x: 16, y: 5},
-    {x: 16, y: 9},
-    {x: 16, y: 10},
-    {x: 17, y: 2},
-    {x: 17, y: 4},
-    {x: 17, y: 6},
-    {x: 17, y: 8},
-    {x: 17, y: 10},
-    {x: 17, y: 12},
-    {x: 18, y: 0},
-    {x: 18, y: 1},
-    {x: 18, y: 2},
-    {x: 18, y: 5},
-    {x: 18, y: 6},
-    {x: 18, y: 8},
-    {x: 18, y: 9},
-    {x: 18, y: 12},
-    {x: 18, y: 13},
-    {x: 18, y: 14},
-    {x: 20, y: 4},
-    {x: 20, y: 5},
-    {x: 20, y: 9},
-    {x: 20, y: 10},
-    {x: 21, y: 4},
-    {x: 21, y: 10},
-    {x: 22, y: 4},
-    {x: 22, y: 10}
-  ];
-  public secondFigure: {x: number, y: number}[] = [
-    {x: 12, y: 5},
-    {x: 12, y: 7},
-    {x: 13, y: 4},
-    {x: 14, y: 4},
-    {x: 14, y: 8},
-    {x: 15, y: 4},
-    {x: 15, y: 8},
-    {x: 16, y: 4},
-    {x: 17, y: 4},
-    {x: 17, y: 7},
-    {x: 18, y: 4},
-    {x: 18, y: 5},
-    {x: 18, y: 6}
-  ];
-  public thirdFigure: {x: number, y: number}[] = [
-    {x: 5, y: 6},
-    {x: 6, y: 4},
-    {x: 6, y: 6},
-    {x: 7, y: 5},
-    {x: 7, y: 6}
-  ];
-  public defaultFigure: {x: number, y: number}[] = [
-    {x: 0, y: 1},
-    {x: 1, y: 1},
-    {x: 2, y: 1},
-  ];
   //for custom width and height
   public userWidth: number = 600;
   public userHeight: number = 400;
+
+  //figuresvdata json
+  public allFigures: any = JSON.parse(JSON.stringify(data))
 
   //subscriptions
   private _isStartedSubscription: Subscription = new Subscription();
@@ -143,11 +62,12 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
   private _cellSizeSubscription: Subscription = new Subscription();
   private _isChangeSpeedSubscription: Subscription = new Subscription();
 
-  constructor(private dataFlowService: DataFlowService, private functionsService: FunctionService) { }
+  constructor(private dataFlowService: DataFlowService, private functionsService: FunctionService, private router: Router) { }
 
   ngOnInit(): void {
-    //for local storage
-    const dataFromForm = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('formData'))));
+
+    //for data from Router (history)
+    const dataFromForm = history.state.data;
     console.log(dataFromForm);
     this.userWidth = dataFromForm.width;
     this.userHeight = dataFromForm.height;
@@ -171,7 +91,7 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
 
     this.functionsService.drawBorders(this.ctx, this.CELL_X, this.CELL_Y, this.cellSize, this.width, this.height); //drawing the canvas lines
     this.cellsInit(); //creating default alive cells
-    this._figureInit(dataFromForm.figure)
+    this._figureInit(dataFromForm.figure.toUpperCase())
     this.functionsService.drawBoard(this.ctx, this.colors, this.CELL_X, this.CELL_Y, this.cellSize, this.BOARD); //drawing the initial board with initial cells
 
     //using service to transfer the functions to the component of Board-Menu
@@ -231,20 +151,21 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
 
   //initial cells coordinates
   private _figureInit(figure: string): void {
+
     if(figure === this.Figures[0]) {
-      for (let i = 0; i < this.firstFigure.length; i++) {
-        this.BOARD[this.firstFigure[i].x][this.firstFigure[i].y] = true;
+      for (let i = 0; i < this.allFigures.firstFigure.length; i++) {
+        this.BOARD[this.allFigures.firstFigure[i].x][this.allFigures.firstFigure[i].y] = true;
       }
     } if (figure === this.Figures[1]) {
-      for (let i = 0; i < this.secondFigure.length; i++) {
-        this.BOARD[this.secondFigure[i].x][this.secondFigure[i].y] = true;
+      for (let i = 0; i < this.allFigures.secondFigure.length; i++) {
+        this.BOARD[this.allFigures.secondFigure[i].x][this.allFigures.secondFigure[i].y] = true;
       }
     }  if (figure === this.Figures[2]) {
-      for (let i = 0; i < this.thirdFigure.length; i++) {
-        this.BOARD[this.thirdFigure[i].x][this.thirdFigure[i].y] = true;
+      for (let i = 0; i < this.allFigures.thirfFigures.length; i++) {
+        this.BOARD[this.allFigures.thirfFigures[i].x][this.allFigures.thirfFigures[i].y] = true;
       }
     } if (figure === this.Figures[3]) {
-      for (let i = 0; i < this.defaultFigure.length; i++) {
+      for (let i = 0; i < this.allFigures.defaultFigure.length; i++) {
        return
       }
     }

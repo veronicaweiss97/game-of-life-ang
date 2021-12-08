@@ -1,4 +1,4 @@
-<form action='submit' class='form animate__animated animate__fadeInRightBig' #f="ngForm" (ngSubmit)="onSubmit()" (window:resize)='doMobile()'>
+<form action='submit' class='form animate__animated animate__fadeInRightBig' #f="ngForm" (window:resize)='doMobile()'>
 
   <div class="form-group">
     <label for="gridWidthSize">Cell width size:</label>
@@ -52,7 +52,7 @@
     routerLink='/game-of-life'
     type="button"
     class="btn btn-secondary"
-    (click)='onSubmit()'
+    (click)='goToBoard()'
     [disabled]='widthControl.invalid || heightControl.invalid'
     >
       Submit

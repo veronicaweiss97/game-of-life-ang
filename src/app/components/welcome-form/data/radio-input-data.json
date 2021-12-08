@@ -1,0 +1,38 @@
+[
+   {
+    "formData": {
+    "width": 600,
+    "height": 400,
+    "figure": "firstFigure"
+    },
+    "image": "../../../assets/img/firstFigure.png",
+    "value": "firstFigure"
+  },
+   {
+    "formData": {
+      "width": 600,
+      "height": 400,
+      "figure": "secondFigure"
+    },
+    "image": "../../../assets/img/secondFigure.png",
+    "value": "secondFigure"
+  },
+ {
+    "formData": {
+      "width": 600,
+      "height": 400,
+      "figure": "thirdFigure"
+    },
+    "image": "../../../assets/img/thirdFigure.png",
+    "value": "thirdFigure"
+  },
+  {
+    "formData": {
+      "width": 600,
+      "height": 400,
+      "figure": "default"
+    },
+    "image": "../../../assets/img/4.png",
+    "value": "default"
+  }
+]
