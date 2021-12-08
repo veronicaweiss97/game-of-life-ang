@@ -77,7 +77,7 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
   public doMobile(): void {
     this.windowWidth = document.documentElement.scrollWidth;
 
-    if (this.windowWidth < 550 && this.isMobile) {
+    if (this.windowWidth <= 550 && this.isMobile) {
       this.isMobile = false;
       this.formData.width = 300;
       this.formData.height = 300;
@@ -95,7 +95,7 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
       ]);
     }
 
-    if (this.windowWidth > 550 && !this.isMobile) {
+    if (this.windowWidth >= 550 && !this.isMobile) {
       this.isMobile = true;
       this.formData.width = 600;
       this.formData.height = 400;
