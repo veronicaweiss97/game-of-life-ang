@@ -64,7 +64,11 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
   constructor(private dataFlowService: DataFlowService) { }
 
   ngOnInit(): void {
-    this.windowWidth < 550 ? (this.isMobile = true) : (this.isMobile = false);
+    console.log('init',this.windowWidth);
+
+
+    this.windowWidth <= 550 ? (this.isMobile = true) : (this.isMobile = false);
+
     this.doMobile();
   }
 
@@ -75,8 +79,9 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
   }
 
   public doMobile(): void {
-    this.windowWidth = document.documentElement.scrollWidth;
-
+    console.log('func1', this.windowWidth);
+    this.windowWidth = document.documentElement.clientWidth;
+    console.log('func2', this.windowWidth);
     if (this.windowWidth <= 550 && this.isMobile) {
       this.isMobile = false;
       this.formData.width = 300;
