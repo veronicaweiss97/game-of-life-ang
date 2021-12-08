@@ -13,11 +13,11 @@
     >
     <small
       style='color: red'
-      *ngIf='widthControl.invalid && !isMobile'>Incorrect value. Minimum width: 400, maximum width: 900.
+      *ngIf='widthControl.invalid && isMobile'>Incorrect value. Minimum width: 400, maximum width: 900.
     </small>
     <small
     style='color: red'
-    *ngIf='widthControl.invalid && isMobile'>Incorrect value. Minimum width: 200, maximum width: 300.
+    *ngIf='widthControl.invalid && !isMobile'>Incorrect value. Minimum width: 200, maximum width: 300.
   </small>
 
     <hr>
@@ -34,11 +34,11 @@
     >
     <small
       style='color: red'
-      *ngIf='heightControl.invalid && !isMobile'>Incorrect value.Minimum height: 200, maximum height: 500
+      *ngIf='heightControl.invalid && isMobile'>Incorrect value.Minimum height: 200, maximum height: 500
     </small>
     <small
     style='color: red'
-    *ngIf='heightControl.invalid && isMobile'>Incorrect value. Minimum height: 200, maximum width: 300.
+    *ngIf='heightControl.invalid && !isMobile'>Incorrect value. Minimum height: 200, maximum width: 300.
   </small>
   </div>
 
@@ -46,23 +46,6 @@
   <h3>Initial form of the cells:</h3>
   <div class="form-group d-flex justify-content-between formImg">
     <app-input-radio *ngFor='let input of radioInputs' [input]='input'></app-input-radio>
-<!--
-    <label for="cellFirst">1.</label>
-    <img src="../../../assets/img/firstFigure.png" alt="firstFigure" style='width: 120px; height: 100px'>
-    <input type="radio" class="form-control" id="firstFigure" value='firstFigure' name='cell' [(ngModel)]='formData.figure'>
-
-    <label for="cellSecond">2.</label>
-    <img src="../../../assets/img/secondFigure.png" alt="secondFigure" style='width: 120px; height: 100px'>
-    <input type="radio" class="form-control" id="secondFigure" value='secondFigure' name='cell' [(ngModel)]='formData.figure'>
-
-    <label for="cellThird">3.</label>
-    <img src="../../../assets/img/thirdFigure.png" alt="thirdFigure" style='width: 120px; height: 100px'>
-    <input type="radio" class="form-control" id="thirdFigure" value='thirdFigure' name='cell' [(ngModel)]='formData.figure'>
-
-    <label for="cellThird">4.</label>
-    <img src="../../../assets/img/4.png" alt="default" style='width: 120px; height: 100px'>
-    <input type="radio" class="form-control" id="default" value='default' name='cell' [(ngModel)]='formData.figure'>
-     -->
   </div>
 
   <button
