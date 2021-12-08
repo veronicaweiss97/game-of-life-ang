@@ -1,6 +1,6 @@
 import { DataFlowService } from '../../services/data-flow.service';
 import { Component, DoCheck, OnInit } from '@angular/core';
-import { FormControl, NgForm, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-welcome-form',
@@ -64,11 +64,7 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
   constructor(private dataFlowService: DataFlowService) { }
 
   ngOnInit(): void {
-    console.log('init',this.windowWidth);
-
-
     this.windowWidth <= 550 ? (this.isMobile = true) : (this.isMobile = false);
-
     this.doMobile();
   }
 
@@ -79,9 +75,8 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
   }
 
   public doMobile(): void {
-    console.log('func1', this.windowWidth);
     this.windowWidth = document.documentElement.clientWidth;
-    console.log('func2', this.windowWidth);
+
     if (this.windowWidth <= 550 && this.isMobile) {
       this.isMobile = false;
       this.formData.width = 300;
