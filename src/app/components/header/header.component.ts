@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit, DoCheck , OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.iterationCounterSubscription.unsubscribe()
+    this.iterationCounterSubscription.unsubscribe();
   }
 
 }

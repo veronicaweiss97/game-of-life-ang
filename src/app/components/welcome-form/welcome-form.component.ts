@@ -75,21 +75,42 @@ export class WelcomeFormComponent implements OnInit, DoCheck {
   }
 
   public doMobile(): void {
-    console.log('eee');
     this.windowWidth = document.documentElement.scrollWidth;
-    if(this.windowWidth < 450 && this.isMobile) {
+
+    if (this.windowWidth < 550 && this.isMobile) {
       this.isMobile = false;
       this.formData.width = 300;
       this.formData.height = 300;
-      this.widthControl = new FormControl('', [Validators.required, Validators.min(200), Validators.max(300)]);
-      this.heightControl = new FormControl('', [Validators.required, Validators.min(200), Validators.max(300)]);
+
+      this.widthControl = new FormControl('', [
+        Validators.required,
+        Validators.min(200),
+        Validators.max(300)
+      ]);
+
+      this.heightControl = new FormControl('', [
+        Validators.required,
+        Validators.min(200),
+        Validators.max(300)
+      ]);
     }
-    if(this.windowWidth > 450 && !this.isMobile) {
+
+    if (this.windowWidth > 550 && !this.isMobile) {
       this.isMobile = true;
       this.formData.width = 600;
       this.formData.height = 400;
-      this.widthControl = new FormControl('', [Validators.required, Validators.min(400), Validators.max(900)]);
-      this.heightControl = new FormControl('', [Validators.required, Validators.min(200), Validators.max(500)]);
+
+      this.widthControl = new FormControl('', [
+        Validators.required,
+        Validators.min(400),
+        Validators.max(900)
+      ]);
+
+      this.heightControl = new FormControl('', [
+        Validators.required,
+        Validators.min(200),
+        Validators.max(500)
+      ]);
     }
   }
   public onSubmit(): void {

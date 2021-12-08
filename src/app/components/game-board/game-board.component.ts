@@ -131,17 +131,17 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
     {x: 0, y: 1},
     {x: 1, y: 1},
     {x: 2, y: 1},
-  ]
+  ];
   //for custom width and height
-  public userWidth: number = 600
-  public userHeight: number = 400
+  public userWidth: number = 600;
+  public userHeight: number = 400;
 
   //subscriptions
-  private isStartedSubscription: Subscription = new Subscription()
-  private clearSubscription: Subscription = new Subscription()
-  private speedSubscription: Subscription = new Subscription()
-  private cellSizeSubscription: Subscription = new Subscription()
-  private isChangeSpeedSubscription: Subscription = new Subscription()
+  private isStartedSubscription: Subscription = new Subscription();
+  private clearSubscription: Subscription = new Subscription();
+  private speedSubscription: Subscription = new Subscription();
+  private cellSizeSubscription: Subscription = new Subscription();
+  private isChangeSpeedSubscription: Subscription = new Subscription();
 
   constructor(private dataFlowService: DataFlowService, private functionsService: FunctionService) { }
 
@@ -227,12 +227,6 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
     this.speedSubscription.unsubscribe();
     this.cellSizeSubscription.unsubscribe();
     this.isChangeSpeedSubscription.unsubscribe();
-
-   /*  this.dataFlowService.isStarted$.unsubscribe();
-    this.dataFlowService.cleared$.unsubscribe();
-    this.dataFlowService.speed$.unsubscribe();
-    this.dataFlowService.cellSize$.unsubscribe();
-    this.dataFlowService.isChangedSpeed$.unsubscribe(); */
   }
 
   //initial cells coordinates
@@ -258,21 +252,16 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
 
   //for canvas responsiveness
   public onResize(e: any): void {
-
     this.pageWidth = document.documentElement.scrollWidth;
-
-
   }
 
   public cellsInit(): void {
     //setting some of the cells to true meaning that they are alive and will be filled with color from the beggining of the game
     this.BOARD = this.functionsService.prepareBoard(this.CELL_X, this.CELL_Y);
-
   }
 
   //calling all the Necessary fucntion to show the current generation and to calculate the next one according to the rules and updating the state of the cells each second with the SetInterval
   public nextGeneration(isCleared?: boolean, isStopped?: boolean): void {
-
 
     if(isStopped) {
       this.BOARD = this.functionsService.setNewGeneration(this.CELL_X, this.CELL_Y, this.BOARD);

@@ -16,7 +16,7 @@ export class InputRadioComponent implements OnInit {
   }
 
   public selected(data: { width: number; height: number; figure: string;}): void {
-    this.dataFlowService.provideFormData(data)
+    this.dataFlowService.provideFormData(data);
   }
 
 }
