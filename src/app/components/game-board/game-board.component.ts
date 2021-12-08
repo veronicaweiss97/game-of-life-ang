@@ -44,7 +44,7 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
   //for cell color change
   public colors: string[] = ['rgb(116,187,253)', 'rgb(243,187,253)', 'rgb(24,97,253)', 'rgb(113,97,253)', 'rgb(202,197,252)', 'rgb(36,27,125)', 'rgb(252,27,125)', 'rgb(252,231,125'];
   //for canvas responsiveness
-  public pangeWidth: number = document.documentElement.scrollWidth;
+  public pageWidth: number = document.documentElement.scrollWidth;
 
   //instances for the initial cells coordinates
   public firstFigure: {x: number, y: number} [] = [
@@ -258,7 +258,10 @@ export class GameBoardComponent implements OnInit, DoCheck, OnDestroy {
 
   //for canvas responsiveness
   public onResize(e: any): void {
-    this.pangeWidth = document.documentElement.scrollWidth;
+
+    this.pageWidth = document.documentElement.scrollWidth;
+
+
   }
 
   public cellsInit(): void {
